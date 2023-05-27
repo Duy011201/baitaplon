@@ -72,18 +72,19 @@ const createStudent = async (req, res) => {
         .json({ message: Constant.OutputType.ACCOUNT_ALREADY_EXIST });
     } else {
       student.id = uuidv4();
-      const date = moment(new Date()).format('YYYY-MM-DD HH:MM:SS');
+      const date = moment(new Date()).format('YYYY-MM-DD');
       student.createdAt = date;
       student.updatedAt = date;
-      await studentService.createStudent(student);
+      student = await studentService.createStudent(student);
+      return res.status(Constant.HttpStatusCode.OK)
+        .json({ student: student, message: Constant.OutputType.CREATE_SUCCESS });
     }
-  } catch {
+  } catch (ex) {
+    console.log(ex);
     return res
       .status(Constant.HttpStatusCode.INTERNAL_SERVER_ERROR)
       .json({ message: Constant.OutputType.ERROR });
   }
-  return res.status(Constant.HttpStatusCode.OK)
-    .json({ student: student, message: Constant.OutputType.CREATE_SUCCESS });
 };
 
 const deleteStudentById = async (req, res) => {

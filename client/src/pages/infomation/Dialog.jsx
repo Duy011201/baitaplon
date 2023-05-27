@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Box, FormControl, FormLabel } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import { createStudent, deleteStudentById } from './InfomationService.js';
+import { createStudent, deleteStudentById, updateStudentById } from './InfomationService.js';
 import { gender, province, nation } from "../../common/constants";
 import LoaderPage from "../../components/loader-page/Loader.jsx";
 import moment from 'moment/moment.js';
@@ -11,29 +11,39 @@ import moment from 'moment/moment.js';
 export function AddStudentDialog(setOpenPopup) {
     const [loading, setLoading] = useState(false);
     const [student, setStudent] = useState({
-        fullName: '',
-        gender: '',
-        dateOfBirth: '',
-        cccd: '',
-        province: '',
-        nation: ''
+        'cccd': '',
+        'dateOfBirth': '',
+        'fullName': '',
+        'gender': '',
+        'nation': '',
+        'province': ''
     });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await createStudent(student);
-        if (res.status === 200) {
+        // const res = await createStudent(student);
+        // if (res.status === 200) {
+        //     setLoading(true);
+        //     setTimeout(function () {
+        //         let loadpage = document.querySelector(".loading-page");
+        //         loadpage.innerHTML = "";
+        //         setOpenPopup(false);
+        //     }, 500);
+        // } 
+        
+        if (true) {
             setLoading(true);
             setTimeout(function () {
-                let loadpage = document.querySelector(".loading-page");
-                loadpage.innerHTML = "";
                 setOpenPopup(false);
-            }, 200);
+                window.location.reload();
+            }, 500);
         }
+        console.log(loading);
     }
 
     const handleChange = (e) => {
-        setStudent({ ...student, [e.target.name]: e.target.value.trim() });
+        setStudent({ ...student, [e.target.name]: e.target.value });
+        console.log(student);
     };
 
     return (
@@ -48,8 +58,8 @@ export function AddStudentDialog(setOpenPopup) {
                 <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
                     <FormLabel>Họ tên</FormLabel>
                     <TextField
-                        type="text" name='fullName' value={student.fullName.trim()} onChange={handleChange}
-                        placeholder="Nhập họ và tên" onBlur={handleChange} required>
+                        type="text" name='fullName' value={student.fullName} onChange={handleChange}
+                        placeholder="Nhập họ và tên" onMouseLeave={handleChange} onBlur={handleChange} required>
                     </TextField>
                 </Box>
 
@@ -58,30 +68,25 @@ export function AddStudentDialog(setOpenPopup) {
                     <Autocomplete
                         options={gender.map((option) => option.label)}
                         renderInput={(params) =>
-                            <TextField name='gender' onBlur={handleChange}
-                                value={student.gender.trim()} onChange={handleChange} required {...params} />}
+                            <TextField name='gender' onMouseLeave={handleChange}
+                                value={student.gender} onChange={handleChange} onBlur={handleChange} required {...params} />}
                     />
                 </Box>
 
                 <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
                     <FormLabel>Ngày sinh</FormLabel>
                     <TextField
-                        type="date" name='dateOfBirth' required value={student.dateOfBirth.trim()}
-                        onChange={handleChange} onBlur={handleChange}>
+                        type="date" name='dateOfBirth' required value={student.dateOfBirth}
+                        onChange={handleChange} onBlur={handleChange} onMouseLeave={handleChange}>
                     </TextField>
                 </Box>
 
                 <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
                     <FormLabel>CCCD</FormLabel>
                     <TextField
-                        type="text"
-                        name='cccd'
-                        value={student.cccd.trim()}
-                        onChange={handleChange}
-                        onBlur={handleChange}
-                        helperText=""
-                        placeholder="Nhập số cccd"
-                        required></TextField>
+                        type="text" name='cccd' value={student.cccd} onChange={handleChange} required
+                        onMouseLeave={handleChange} onBlur={handleChange} helperText="" placeholder="Nhập số cccd"
+                    />
                 </Box>
 
                 <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
@@ -89,7 +94,7 @@ export function AddStudentDialog(setOpenPopup) {
                     <Autocomplete
                         options={province.map((option) => option.value)}
                         renderInput={(params) =>
-                            <TextField name='province' onBlur={handleChange}
+                            <TextField name='province' onMouseLeave={handleChange} onBlur={handleChange}
                                 value={student.province} onChange={handleChange} {...params} />}
                     />
                 </Box>
@@ -99,13 +104,13 @@ export function AddStudentDialog(setOpenPopup) {
                     <Autocomplete
                         options={nation.map((option) => option.name)}
                         renderInput={(params) =>
-                            <TextField name='nation' onBlur={handleChange}
-                                value={student.nation.trim()} onChange={handleChange} required {...params} />}
+                            <TextField name='nation' onMouseLeave={handleChange} onBlur={handleChange}
+                                value={student.nation} onChange={handleChange} required {...params} />}
                     />
                 </Box>
 
                 <Box sx={{ width: "100%", textAlign: "end" }}>
-                    <Button sx={{mr: 2}} variant="contained" onClick={() => setOpenPopup(false)}>Cancel</Button>
+                    <Button sx={{ mr: 2 }} variant="contained" onClick={() => setOpenPopup(false)}>Cancel</Button>
                     <Button variant="contained" onClick={handleSubmit}>Submit</Button>
                 </Box>
             </Box>
@@ -123,14 +128,13 @@ export function ChangeStudentDialog(props, setOpenPopup) {
         e.preventDefault();
         student.id = data.id;
         console.log(student);
-        const res = await createStudent(student);
+        const res = await updateStudentById(student);
         if (res.status === 200) {
             setLoading(true);
             setTimeout(function () {
-                let loadpage = document.querySelector(".loading-page");
-                loadpage.innerHTML = "";
+                window.location.reload();
                 setOpenPopup(false);
-            }, 200);
+            }, 500);
 
         }
     }
@@ -152,7 +156,7 @@ export function ChangeStudentDialog(props, setOpenPopup) {
                     <FormLabel>Họ tên</FormLabel>
                     <TextField
                         type="text" name='fullName' value={student.fullName === '' ? student.fullName = data.fullName : student.fullName}
-                        placeholder="Nhập họ và tên" onChange={handleChange} onBlur={handleChange} required>
+                        placeholder="Nhập họ và tên" onChange={handleChange} onMouseLeave={handleChange} onBlur={handleChange} required>
                     </TextField>
                 </Box>
 
@@ -161,8 +165,8 @@ export function ChangeStudentDialog(props, setOpenPopup) {
                     <Autocomplete
                         options={gender.map((option) => option.label)}
                         renderInput={(params) =>
-                            <TextField name='gender' onBlur={handleChange}
-                                value={student.gender}
+                            <TextField name='gender' onMouseLeave={handleChange}
+                                value={student.gender} onBlur={handleChange}
                                 onChange={handleChange} helperText={data.gender} required {...params} />}
                     />
                 </Box>
@@ -170,8 +174,8 @@ export function ChangeStudentDialog(props, setOpenPopup) {
                 <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
                     <FormLabel>Ngày sinh</FormLabel>
                     <TextField
-                        type="date" name='dateOfBirth' required
-                        value={student.dateOfBirth} onChange={handleChange} onBlur={handleChange}
+                        type="date" name='dateOfBirth' onBlur={handleChange} required
+                        value={student.dateOfBirth} onChange={handleChange} onMouseLeave={handleChange}
                         helperText={moment(data.dateOfBirth).format("DD/MM/YYYY")}>
                     </TextField>
                 </Box>
@@ -182,7 +186,7 @@ export function ChangeStudentDialog(props, setOpenPopup) {
                         type="text"
                         name='cccd'
                         value={student.cccd === '' ? student.cccd = data.cccd : student.cccd}
-                        onChange={handleChange} onBlur={handleChange}
+                        onChange={handleChange} onMouseLeave={handleChange} onBlur={handleChange}
                         helperText=""
                         placeholder="Nhập số cccd"
                         required></TextField>
@@ -193,8 +197,8 @@ export function ChangeStudentDialog(props, setOpenPopup) {
                     <Autocomplete
                         options={province.map((option) => option.value)}
                         renderInput={(params) =>
-                            <TextField name='province' onChange={handleChange} onBlur={handleChange}
-                                value={student.province} helperText={data.province} required {...params} />}
+                            <TextField name='province' onChange={handleChange} onMouseLeave={handleChange}
+                                value={student.province} helperText={data.province} onBlur={handleChange} required {...params} />}
                     />
                 </Box>
 
@@ -205,13 +209,13 @@ export function ChangeStudentDialog(props, setOpenPopup) {
                         selectOnFocus
                         renderInput={(params) =>
                             <TextField name='nation'
-                                value={student.nation} onChange={handleChange} onBlur={handleChange}
-                                helperText={data.nation} required {...params} />}
+                                value={student.nation} onChange={handleChange} onMouseLeave={handleChange}
+                                helperText={data.nation} onBlur={handleChange} required {...params} />}
                     />
                 </Box>
 
                 <Box sx={{ width: "100%", textAlign: "end" }}>
-                    <Button sx={{mr: 2}} variant="contained" onClick={() => setOpenPopup(false)}>Cancel</Button>
+                    <Button sx={{ mr: 2 }} variant="contained" onClick={() => setOpenPopup(false)}>Cancel</Button>
                     <Button variant="contained" onClick={handleSubmit}>Submit</Button>
                 </Box>
             </Box>
@@ -228,12 +232,12 @@ export function DeleteStudentDialog(props, setOpenPopup) {
         if (res.status === 200) {
             setTimeout(function () {
                 setOpenPopup(false);
-            }, 200);
+            }, 500);
         }
     }
 
     return (
-        <Box sx={{display: "flex",justifyContent: 'space-between', width: '200px' }}>
+        <Box sx={{ display: "flex", justifyContent: 'space-between', width: '200px' }}>
             <Button variant="contained" onClick={() => setOpenPopup(false)}>Cancel</Button>
             <Button variant="contained" onClick={handleSubmit}>Delete</Button>
         </Box>

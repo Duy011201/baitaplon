@@ -46,8 +46,8 @@ const studentService = {
     try {
       return sequelize.query(`INSERT INTO students 
       (id, fullName, gender, dateOfBirth, cccd, province, nation, createdAt, updatedAt) 
-      VALUES ('${student.id}', '${student.fullName}', '${student.gender}', '${student.dateOfBirth}', 
-        '${student.cccd}', '${student.province}', '${student.nation}', '${student.createdAt}', '${student.updatedAt}')
+      VALUES ('${student.id}', N'${student.fullName}', N'${student.gender}', '${student.dateOfBirth}', 
+        '${student.cccd}', N'${student.province}', N'${student.nation}', '${student.createdAt}', '${student.updatedAt}')
       `, { logging: console.log });
     } catch (err) {
       logger.error(err);
@@ -57,8 +57,8 @@ const studentService = {
     try {
       let date = new Date();
       date = moment(date).format('YYYY-MM-DD')
-      return sequelize.query(`UPDATE students SET fullName = '${student.fullName}',gender = '${student.gender}', dateOfBirth = '${student.dateOfBirth}',` 
-      + `cccd = '${student.cccd}',province = '${student.province}',nation = '${student.nation}',updatedAt = '${date}' WHERE id = '${student.id}'`, { logging: console.log });
+      return sequelize.query(`UPDATE students SET fullName = N'${student.fullName}',gender = N'${student.gender}', dateOfBirth = '${student.dateOfBirth}',` 
+      + `cccd = '${student.cccd}',province = N'${student.province}',nation = N'${student.nation}',updatedAt = '${date}' WHERE id = '${student.id}'`, { logging: console.log });
     } catch (err) {
       logger.error(err);
     }

@@ -83,9 +83,9 @@ const authController = {
         .json({ errors: errors.array() });
     }
     const username = req?.body?.username ?? "";
-    const isUser = await userService.getUserByUsername(username);
+    const user = await userService.getUserByUsername(username);
 
-    if (!isUser) {
+    if (!user) {
       return res
         .status(Constants.HttpStatusCode.NOT_FOUND)
         .json({ message: Constants.OutputType.ERROR_USERNAME_OR_PASSWORD });
@@ -93,7 +93,7 @@ const authController = {
 
     const isPassword = await bcrypt.compare(
       req?.body?.password ?? "",
-      isUser.password
+      user.password
     );
 
     if (!isPassword) {
@@ -102,9 +102,9 @@ const authController = {
         .json({ message: Constants.OutputType.ERROR_USERNAME_OR_PASSWORD });
     }
 
-    if (isUser && isPassword) {
-      const accessToken = authController.generateAccessToken(isUser);
-      const refreshToken = authController.generateRefreshToken(isUser);
+    if (user && isPassword) {
+      const accessToken = authController.generateAccessToken(user);
+      const refreshToken = authController.generateRefreshToken(user);
       refreshTokens.push(refreshToken); // fake database
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -114,7 +114,7 @@ const authController = {
       });
       return res
         .status(Constants.HttpStatusCode.OK)
-        .json({ isUser, accessToken });
+        .json({ user, accessToken });
     }
   },
 

@@ -43,6 +43,24 @@ const getUserById = async (req, res) => {
   return res.status(Constant.HttpStatusCode.OK).json(user);
 };
 
+const updateUserById = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(Constant.HttpStatusCode.BAD_REQUEST)
+      .json({ errors: errors.array() });
+  }
+  const id = req?.params?.id ?? "";
+  const check = await userService.getUserById(id);
+  if (check) {
+    const user = await userService.updateUserById(req.body.user);
+    return res.status(Constant.HttpStatusCode.OK).json(user);
+  }
+  return res
+    .status(Constant.HttpStatusCode.BAD_REQUEST)
+    .json({ message: Constant.OutputType.ERROR });
+};
+
 const deleteUserById = async (req, res) => {
   const id = req?.params?.id ?? "";
   const user = await userService.getUserById(id);
@@ -71,5 +89,6 @@ export default {
   getUserByUsername,
   getAllUser,
   getUserById,
+  updateUserById,
   deleteUserById,
 };

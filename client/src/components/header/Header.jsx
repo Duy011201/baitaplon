@@ -15,8 +15,11 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Sidebar from "../../components/sidebar/Sidebar";
-import {dataSidebar}  from "../../common/constants";
+import { dataSidebar } from "../../common/constants";
 import Button from "@mui/material/Button";
+import Popup from '../popup/Popup';
+import { ProfileDialog } from './Dialog';
+import PeopleIcon from '@mui/icons-material/People';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,10 +67,16 @@ export default function Header() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [openPopup, setOpenPopup] = React.useState(false);
+  const [action, setAction] = React.useState('');
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handlePeople = () => {
+    window.location.href = window.location.origin + "/user"
+  }
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -99,7 +108,7 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={() => { setOpenPopup(true), setAction('profile') }}>Profile</MenuItem>
       <MenuItem
         onClick={() => {
           handleMenuClose,
@@ -147,6 +156,18 @@ export default function Header() {
           </Badge>
         </IconButton>
         <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handlePeople}>
+        <IconButton
+          size="large"
+          color="inherit"
+          aria-label="people"
+        >
+          <Badge badgeContent={17} color="error">
+            <PeopleIcon />
+          </Badge>
+        </IconButton>
+        <p>People</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -209,6 +230,14 @@ export default function Header() {
             </IconButton>
             <IconButton
               size="large"
+              aria-label="people"
+              color="inherit"
+              onClick={handlePeople}
+            >
+              <PeopleIcon />
+            </IconButton>
+            <IconButton
+              size="large"
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -235,6 +264,7 @@ export default function Header() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {action === 'profile' ? <Popup title="Sửa thông tin" children={() => ProfileDialog(setOpenPopup)} openPopup={openPopup} setOpenPopup={setOpenPopup} /> : null}
     </Box>
   );
 }

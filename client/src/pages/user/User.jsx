@@ -21,7 +21,7 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import LoaderPage from "../../components/loader-page/Loader";
 
-export default function Login() {
+export default function User() {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [singIn, setSingIn] = useState(false);
@@ -44,6 +44,7 @@ export default function Login() {
                     loading.innerHTML = "";
                     dispatch(setToken(res.data.accessToken));
                     window.localStorage.setItem("access_token", res.data.accessToken);
+                    window.localStorage.setItem("user_id", res.data.user.id);
                     navigate("/dashboard");
                 }, 500);
             } else {

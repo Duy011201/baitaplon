@@ -1,6 +1,8 @@
-import {db} from "../config/connect.js";
+import { db, sequelize } from "../config/connect.js";
 // import db from "../models/index.cjs";
 import logger from "../config/winston.js";
+import moment from "moment";
+import bcrypt from "bcrypt";
 
 const userService = {
   getAllUser: async (pageSize) => {
@@ -43,6 +45,43 @@ const userService = {
   createUser: async (user) => {
     try {
       return await db.User.create(user);
+    } catch (err) {
+      logger.error(err);
+    }
+  },
+  updateUserById: async (user) => {
+    try {
+      console.log(user);
+      let date = new Date();
+      date = moment(date).format('YYYY-MM-DD');
+
+      let strQuery = `UPDATE users SET `;
+
+      if (user.fullName) {
+        strQuery += `fullName = N'${user.fullName}',`;
+      }
+
+      if (user.email) {
+        strQuery += `email = '${user.email}',`;
+      }
+
+      if (user.username) {
+        strQuery += `username = '${user.username}',`;
+      }
+
+      if (user.password) {
+        const salt = 10;
+        const hashPassword = bcrypt.hashSync(user.password, salt);
+        strQuery += `password = '${hashPassword}',`;
+      }
+
+      if (user.role) {
+        strQuery += `role = '${user.role}',`;
+      }
+
+      strQuery += `updatedAt = '${date}' WHERE id = '${user.id}'`
+
+      return sequelize.query(strQuery, { logging: console.log });
     } catch (err) {
       logger.error(err);
     }
