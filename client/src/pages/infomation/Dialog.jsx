@@ -21,24 +21,23 @@ export function AddStudentDialog(setOpenPopup) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // const res = await createStudent(student);
-        // if (res.status === 200) {
-        //     setLoading(true);
-        //     setTimeout(function () {
-        //         let loadpage = document.querySelector(".loading-page");
-        //         loadpage.innerHTML = "";
-        //         setOpenPopup(false);
-        //     }, 500);
-        // } 
-        
-        if (true) {
+        const res = await createStudent(student);
+        if (res.status === 200) {
             setLoading(true);
             setTimeout(function () {
-                setOpenPopup(false);
                 window.location.reload();
+                setOpenPopup(false);
             }, 500);
-        }
-        console.log(loading);
+        } 
+        
+        // if (true) {
+        //     setLoading(true);
+        //     setTimeout(function () {
+        //         setOpenPopup(false);
+        //         window.location.reload();
+        //     }, 500);
+        // }
+        // console.log(loading);
     }
 
     const handleChange = (e) => {

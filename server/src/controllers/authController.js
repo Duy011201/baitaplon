@@ -19,37 +19,36 @@ const authController = {
           .status(Constants.HttpStatusCode.BAD_REQUEST)
           .json({ errors: errors.array() });
       }
-      const username = req?.body?.username ?? "";
-      const user = await userService.getUserByUsername(username);
-      if (user) {
+      const user = req?.body?.user ?? "";
+      const checkUser = await userService.getUserByUsername(user.username);
+      if (checkUser !== null) {
         res
           .status(Constants.HttpStatusCode.CONFLICT)
           .json({ message: Constants.OutputType.ACCOUNT_ALREADY_EXIST });
       } else {
         const id = uuidv4();
         const salt = 10;
-        const hashPassword = bcrypt.hashSync(req?.body?.password ?? "", salt);
+        const hashPassword = bcrypt.hashSync(user.password, salt);
         const newUser = {
           id: id,
-          username: username,
+          fullname: user?.fullName,
+          email: user?.email,
+          username: user.username,
           password: hashPassword,
-          role: "user",
+          role: user?.role,
         };
         const createUser = await userService.createUser(newUser);
-        if (!createUser) {
-          return res
-            .status(Constants.HttpStatusCode.INTERNAL_SERVER_ERROR)
-            .json({ message: Constants.OutputType.ERROR_PROCESSING_CREATE });
+        if (createUser) {
+          return res.status(Constants.HttpStatusCode.INSERT_OK).json({
+            username : user.username,
+            message: Constants.OutputType.CREATE_SUCCESS,
+          });
         }
-        return res.status(Constants.HttpStatusCode.INSERT_OK).json({
-          username,
-          message: Constants.OutputType.CREATE_SUCCESS,
-        });
       }
     } catch (err) {
       res
         .status(Constants.HttpStatusCode.INTERNAL_SERVER_ERROR)
-        .json({ message: err });
+        .json({ message: Constants.OutputType.ERROR_PROCESSING_CREATE });
     }
   },
 

@@ -44,14 +44,32 @@ const userService = {
   },
   createUser: async (user) => {
     try {
-      return await db.User.create(user);
+      let date = new Date();
+      date = moment(date).format('YYYY-MM-DD');
+
+      let strQuery = `INSERT INTO users VALUES('${user.id}',`;
+
+      strQuery += `'${user.fullName ? user.fullName : ''}',`;
+
+      strQuery += `'${user.email}',`;
+
+      strQuery += `'${user.username}',`;
+
+      const salt = 10;
+      const hashPassword = bcrypt.hashSync(user.password, salt);
+      strQuery += `'${hashPassword}',`;
+
+      strQuery += `'${user.role}',`;
+
+      strQuery += `'${date}', '${date}')`
+
+      return sequelize.query(strQuery, { logging: console.log });
     } catch (err) {
       logger.error(err);
     }
   },
   updateUserById: async (user) => {
     try {
-      console.log(user);
       let date = new Date();
       date = moment(date).format('YYYY-MM-DD');
 
