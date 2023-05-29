@@ -26,7 +26,7 @@ export default function Infomation(props) {
     );
 
     const columns = [
-        { field: "id", headerName: "ID", width: 150 },
+        { field: "id", headerName: "ID", width: 200 },
         { field: "fullName", headerName: "fullname", width: 150 },
         { field: "email", headerName: "email", width: 100 },
         {
@@ -37,7 +37,7 @@ export default function Infomation(props) {
         {
             field: "password",
             headerName: "password",
-            width: 100
+            width: 200
         },
         {
             field: "role",
@@ -54,7 +54,7 @@ export default function Infomation(props) {
             headerName: "Action",
             description: "This column has action and is not sortable.",
             sortable: false,
-            width: 260,
+            width: 200,
             renderCell: (params) => {
                 const handleEdit = (e) => {
                     setOpenPopup(true), setAction('edit')
