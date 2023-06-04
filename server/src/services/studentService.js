@@ -45,9 +45,9 @@ const studentService = {
   createStudent: async (student) => {
     try {
       return sequelize.query(`INSERT INTO students 
-      (id, fullName, gender, dateOfBirth, cccd, province, nation, createdAt, updatedAt) 
+      (id, fullName, gender, dateOfBirth, cccd, province, nation, createdAt, updatedAt, course_name, gk_test, exam_ends, hp_summary) 
       VALUES ('${student.id}', N'${student.fullName}', N'${student.gender}', '${student.dateOfBirth}', 
-        '${student.cccd}', N'${student.province}', N'${student.nation}', '${student.createdAt}', '${student.updatedAt}')
+        '${student.cccd}', N'${student.province}', N'${student.nation}', '${student.createdAt}', '${student.updatedAt}',N'${student.course_name}','${student.gk_test}','${student.exam_ends}','${student.hp_summary}')
       `, { logging: console.log });
     } catch (err) {
       logger.error(err);
@@ -58,13 +58,14 @@ const studentService = {
       let date = new Date();
       date = moment(date).format('YYYY-MM-DD')
       return sequelize.query(`UPDATE students SET fullName = N'${student.fullName}',gender = N'${student.gender}', dateOfBirth = '${student.dateOfBirth}',` 
-      + `cccd = '${student.cccd}',province = N'${student.province}',nation = N'${student.nation}',updatedAt = '${date}' WHERE id = '${student.id}'`, { logging: console.log });
+      + `cccd = '${student.cccd}',province = N'${student.province}',nation = N'${student.nation}',updatedAt = '${date}', course_name = N'${student.course_name}', gk_test = '${student.gk_test}' ,exam_ends = '${student.exam_ends}', hp_summary = '${student.hp_summary}' WHERE id = '${student.id}'`, { logging: console.log });
     } catch (err) {
       logger.error(err);
     }
   },
   deleteStudentById: async (id) => {
     try {
+      // return sequelize.query(`DELETE FROM students WHERE fullName  ` , { logging: console.log });
       console.log(id);
       return db.Student.destroy({ where: { id: id } });
     } catch (err) {

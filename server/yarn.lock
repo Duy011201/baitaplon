@@ -422,14 +422,14 @@
     "chalk" "^2.0.0"
     "js-tokens" "^4.0.0"
 
-"@babel/node@^7.20.7":
-  "integrity" "sha512-AQt3gVcP+fpFuoFn4FmIW/+5JovvEoA9og4Y1LrRw0pv3jkl4tujZMMy3X/3ugjLrEy3k1aNywo3JIl3g+jVXQ=="
-  "resolved" "https://registry.npmjs.org/@babel/node/-/node-7.20.7.tgz"
-  "version" "7.20.7"
+"@babel/node@^7.22.1":
+  "integrity" "sha512-9MVahJCvE4+8qsSPCvv6wXM50YNxwqW61TDQYrsvUy8GxUmWd8IzpBm7kBZzSuEkGHd4MZ1vK8s4IM9IirY2uw=="
+  "resolved" "https://registry.npmjs.org/@babel/node/-/node-7.22.1.tgz"
+  "version" "7.22.1"
   dependencies:
-    "@babel/register" "^7.18.9"
+    "@babel/register" "^7.21.0"
     "commander" "^4.0.1"
-    "core-js" "^3.26.0"
+    "core-js" "^3.30.2"
     "node-environment-flags" "^1.0.5"
     "regenerator-runtime" "^0.13.11"
     "v8flags" "^3.1.1"
@@ -1032,7 +1032,7 @@
     "@babel/types" "^7.4.4"
     "esutils" "^2.0.2"
 
-"@babel/register@^7.18.9":
+"@babel/register@^7.21.0":
   "integrity" "sha512-9nKsPmYDi5DidAqJaQooxIhsLJiNMkGr8ypQ8Uic7cIox7UCDsM7HuUGxdGT7mSDTYbqzIdsOWzfBton/YJrMw=="
   "resolved" "https://registry.npmjs.org/@babel/register/-/register-7.21.0.tgz"
   "version" "7.21.0"
@@ -1917,10 +1917,10 @@
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
   "version" "2.6.12"
 
-"core-js@^3.26.0":
-  "integrity" "sha512-hQotSSARoNh1mYPi9O2YaWeiq/cEB95kOrFb4NCrO4RIFt1qqNpKsaE+vy/L3oiqvND5cThqXzUU3r9F7Efztg=="
-  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.30.0.tgz"
-  "version" "3.30.0"
+"core-js@^3.30.2":
+  "integrity" "sha512-uBJiDmwqsbJCWHAwjrx3cvjbMXP7xD72Dmsn5LOJpiRmE3WbBbN5rCqQ2Qh6Ek6/eOrjlWngEynBWo4VxerQhg=="
+  "resolved" "https://registry.npmjs.org/core-js/-/core-js-3.30.2.tgz"
+  "version" "3.30.2"
 
 "cors@^2.8.5":
   "integrity" "sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g=="

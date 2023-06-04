@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     cccd: DataTypes.STRING,
     province: DataTypes.STRING,
     nation: DataTypes.STRING,
-    idDetailStudent: DataTypes.UUID
+    idDetailStudent: DataTypes.UUID,
+    course_name:DataTypes.STRING,
+    gk_test: DataTypes.DOUBLE,
+    exam_ends:DataTypes.DOUBLE,
+    hp_summary: DataTypes.DOUBLE
   }, {
     sequelize,
     modelName: 'student',

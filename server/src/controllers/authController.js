@@ -83,7 +83,8 @@ const authController = {
     }
     const username = req?.body?.username ?? "";
     const user = await userService.getUserByUsername(username);
-
+    console.log("test",user);
+    
     if (!user) {
       return res
         .status(Constants.HttpStatusCode.NOT_FOUND)
